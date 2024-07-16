@@ -91,4 +91,4 @@
 
     f. Bash into the pods if required
 
-    kubectl exec -it <podname> -n calcom -- /bin/bash
+        kubectl exec -it <podname> -n calcom -- /bin/bash
