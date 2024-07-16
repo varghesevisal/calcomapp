@@ -76,14 +76,14 @@
 
     d. Check the exposed services:
 
-    <code>kubectl get svc -n calcom</code>
+    kubectl get svc -n calcom
 
     <code>NAME     TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
     calcom   NodePort   10.100.133.119   <none>        80:31405/TCP   3m18s</code>
 
     e. List the pods: 
 
-    <code>kubectl get pods -o wide -n calcom</code>
+    kubectl get pods -o wide -n calcom
 
     <code>
     NAME                      READY   STATUS              RESTARTS   AGE     IP       NODE                                                   NOMINATED NODE   READINESS GATES
@@ -91,4 +91,4 @@
 
     f. Bash into the pods if required
 
-    <code>kubectl exec -it <podname> -n calcom -- /bin/bash</code>
+    kubectl exec -it <podname> -n calcom -- /bin/bash
