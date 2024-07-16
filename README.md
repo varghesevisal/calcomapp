@@ -9,14 +9,14 @@
 
 3. **Set up the Load Balancer for the Calcom Application using Helm**
     
-   <code>eksctl utils associate-iam-oidc-provider --region=us-east-2 --cluster=calcom-eks --profile pc --approve</code>
+        eksctl utils associate-iam-oidc-provider --region=us-east-2 --cluster=calcom-eks --profile pc --approve
 
-   <code>curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json</code>
+        curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
 
 
-   <code>aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json --profile pc </code>
+        aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json --profile pc
  
-    <code>eksctl create iamserviceaccount \
+        eksctl create iamserviceaccount \
         --cluster=calcom-eks \
         --namespace=kube-system \
         --name=aws-load-balancer-controller \
@@ -25,24 +25,23 @@
         --approve \
         --region us-east-2 \
         --profile pc
-    </code>
+    
 
-    <code>eksctl get iamserviceaccount --cluster calcom-eks --name aws-load-balancer-controller --namespace kube-system --region us-east-2 --profile pc
-    </code>
+        eksctl get iamserviceaccount --cluster calcom-eks --name aws-load-balancer-controller --namespace kube-system --region us-east-2 --profile pc
 
-    <code>helm repo add eks https://aws.github.io/eks-charts</code>
+        helm repo add eks https://aws.github.io/eks-charts
 
-    <code>kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master" </code>
+        kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master" 
 
-    <code>
-    helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
-    -n kube-system \
-    --set clusterName=calcom-eks \
-    --set serviceAccount.create=false \
-    --set region=us-east-2 \
-    --set vpcId=vpc-0256a3a9500e739a5 \
-    --set serviceAccount.name=aws-load-balancer-controller 
-    </code>
+  
+        helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+        -n kube-system \
+        --set clusterName=calcom-eks \
+        --set serviceAccount.create=false \
+        --set region=us-east-2 \
+        --set vpcId=vpc-0256a3a9500e739a5 \
+        --set serviceAccount.name=aws-load-balancer-controller 
+
     
 
 4. **Deploy PostgreSQL Application using CloudFormation Stack**
