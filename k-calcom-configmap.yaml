@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: calcom
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: calcom-config
+  namespace: calcom
+data:
+  CALCOM_TELEMETRY_DISABLED: ""
+  CALENDSO_ENCRYPTION_KEY: ba9899d724246fbdd918d03fb2be8855
+  DATABASE_URL: "postgresql://masteruser:masterpassword@vpce-040669cc7c91c65c1-emmhj0fk.vpce-svc-094483e3c0e40c03b.us-east-2.vpce.amazonaws.com:5432/calendso"
+  DATABASE_DIRECT_URL: "postgresql://masteruser:masterpassword@vpce-040669cc7c91c65c1-emmhj0fk.vpce-svc-094483e3c0e40c03b.us-east-2.vpce.amazonaws.com:5432/calendso"
+  NEXT_PUBLIC_LICENSE_CONSENT: "true"
+  NEXT_PUBLIC_WEBAPP_URL: "http://localhost:3000"
+  NEXT_PUBLIC_API_V2_URL: "http://localhost:5555/api/v2"
+  NEXTAUTH_SECRET: 7vJl82d3RvS4XL5r51yeEZ9pUQxNRl5wgQNeNx9a450=
+  GOOGLE_API_CREDENTIALS: "{}"
+  NODE_ENV: production

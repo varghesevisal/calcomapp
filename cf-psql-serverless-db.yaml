@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Aurora Serverless PostgreSQL Database
+
+Parameters:
+  VpcId:
+    Description: VPC ID from the EKS stack
+    Type: AWS::EC2::VPC::Id
+  SubnetIds:
+    Description: Comma-separated list of subnet IDs from the EKS stack
+    Type: CommaDelimitedList
+
+Resources:
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for Aurora Serverless
+      SubnetIds: !Ref SubnetIds
+      Tags:
+        - Key: Name
+          Value: calcom-db-subnet-group
+
+  DefaultSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Default security group for Aurora Serverless
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 192.168.0.0/16
+
+  DBCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      Engine: aurora-postgresql
+      EngineMode: serverless
+      DBClusterIdentifier: calcom-aurora-cluster
+      MasterUsername: masteruser
+      MasterUserPassword: masterpassword
+      EnableHttpEndpoint: true
+      ScalingConfiguration:
+        AutoPause: true
+        MinCapacity: 2
+        MaxCapacity: 4
+      VpcSecurityGroupIds:
+        - !Ref DefaultSecurityGroup
+      DBSubnetGroupName: !Ref DBSubnetGroup
+
+Outputs:
+  DBClusterEndpoint:
+    Value: !GetAtt DBCluster.Endpoint.Address
+    Export:
+      Name: DBClusterEndpoint
+
+  DBClusterIdentifier:
+    Value: !Ref DBCluster
+    Export:
+      Name: DBClusterIdentifier
