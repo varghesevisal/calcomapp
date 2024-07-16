@@ -69,6 +69,8 @@
     <code>NAME             CLASS   HOSTS   ADDRESS                                                           PORTS   AGE
     calcom-ingress   alb     *       k8s-calcom-calcomin-f5c1cdb252-1146159469.us-east-2.elb.amazonaws.com   80      8s</code>
 
+    The load balancer address(A Record) is the url which can be used to view the ui.
+
     e. Verify it in the logs:
 
         kubectl logs deployment .apps/aws-load-balancer-controller -n kube-system
