@@ -53,37 +53,37 @@
 
     a. Create a Fargate profile for the Calcom namespace - It is included in the cloudformation script, we can skip this step
 
-    <code>eksctl create fargateprofile --cluster calcom-eks --region us-east-2 --name calcom --namespace calcom --profile pc</code>
+        eksctl create fargateprofile --cluster calcom-eks --region us-east-2 --name calcom --namespace calcom --profile pc
 
     b. Apply the config map that will be referenced in the deployment script. It includes namespace and config creation:
     
-    <code>kubectl apply -f k-calcom-configmap.yaml</code>
+        kubectl apply -f k-calcom-configmap.yaml
     
     c. Deploy the Calcom application with an internet-facing Ingress ALB. The application installation takes approximately 6 to 12 minutes:
    
-    <code>kubectl apply -f k-calcom-deployment-with-alb.yaml</code>
+        kubectl apply -f k-calcom-deployment-with-alb.yaml
 
     d. Check the created ingress:
 
-    <code>kubectl get ingress/calcom-ingress -n calcom</code>
+        kubectl get ingress/calcom-ingress -n calcom
 
     <code>NAME             CLASS   HOSTS   ADDRESS                                                           PORTS   AGE
     calcom-ingress   alb     *       k8s-calcom-calcomin-f5c1cdb252-1146159469.us-east-2.elb.amazonaws.com   80      8s</code>
 
     e. Verify it in the logs:
-    <code>kubectl logs deployment
-    .apps/aws-load-balancer-controller -n kube-system</code>
+
+        kubectl logs deployment .apps/aws-load-balancer-controller -n kube-system
 
     d. Check the exposed services:
 
-    kubectl get svc -n calcom
+        kubectl get svc -n calcom
 
     <code>NAME     TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
     calcom   NodePort   10.100.133.119   <none>        80:31405/TCP   3m18s</code>
 
     e. List the pods: 
 
-    kubectl get pods -o wide -n calcom
+        kubectl get pods -o wide -n calcom
 
     <code>
     NAME                      READY   STATUS              RESTARTS   AGE     IP       NODE                                                   NOMINATED NODE   READINESS GATES
