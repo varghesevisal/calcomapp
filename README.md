@@ -121,7 +121,15 @@
     g.  To see the created pods
     
         kubectl get pods -n calcom
-        
+
         NAME                      READY   STATUS    RESTARTS   AGE
         calapi-5fbfb69fcf-88r6w   1/1     Running   0          41m
         calcom-575d844586-tw7wb   1/1     Running   0          41m
+
+    h. To see the created services
+        
+        kubectl get svc -n calcom -o wide
+        
+        NAME     TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+        calapi   NodePort   10.100.104.248   <none>        81:31942/TCP   43m   app=calapi
+        calcom   NodePort   10.100.1.182     <none>        80:31374/TCP   43m   app=calcom
