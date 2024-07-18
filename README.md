@@ -39,16 +39,41 @@
         --set clusterName=calcom-eks \
         --set serviceAccount.create=false \
         --set region=us-east-2 \
-        --set vpcId=vpc-0256a3a9500e739a5 \
+        --set vpcId=vpc-06393f6418adf94cf \
         --set serviceAccount.name=aws-load-balancer-controller 
 
     
+4. **Steps to create a custom image for the API server**
+    1. To set up API server and push the Docker image to ECR, follow these steps:
 
-4. **Deploy PostgreSQL Application using CloudFormation Stack**
+        a. Clone the Repository and Checkout Release:
+            Ensure you have the repository cloned locally and navigate to it:
+            Checkout the specific release tag(v3.5.0)
+
+            git clone https://github.com/calcom/cal.com
+            cd cal.com
+            git checkout v3.5.0
+
+        b. Build the Docker Image:
+
+            docker build -t cal-api-v3.5.0 -f ./infra/docker/api/Dockerfile .
+        c. Login to ECR:
+           Obtain a login command for ECR and authenticate Docker to your registry:
+
+            aws ecr get-login-password --region us-east-2 --profile pc | docker login --username AWS --password-stdin 923889749700.dkr.ecr.us-east-2.amazonaws.com
+        d. Tag the Docker image with the ECR repository URI:
+
+            docker tag cal-api-v3.5.0:latest 923889749700.dkr.ecr.us-east-2.amazonaws.com/calapi-v3.5.0:latest
+
+        e. Finally, push the tagged Docker image to ECR:
+
+            docker push 923889749700.dkr.ecr.us-east-2.amazonaws.com/calapi-v3.5.0:latest
+
+5. **Deploy PostgreSQL Application using CloudFormation Stack**
 
    a. Copy the cluster endpoint and paste it in the <code>k-calcom-configmap.yaml</code>
 
-5. **Deploy the Calcom Web Application**
+6. **Deploy the Calcom Web Application**
 
     a. Create a Fargate profile for the Calcom namespace - It is included in the cloudformation script, we can skip this step
 
