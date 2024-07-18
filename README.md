@@ -118,3 +118,10 @@
     f. Bash into the pods if required
 
         kubectl exec -it <podname> -n calcom -- /bin/bash
+    g.  To see the created pods
+    
+        kubectl get pods -n calcom
+        
+        NAME                      READY   STATUS    RESTARTS   AGE
+        calapi-5fbfb69fcf-88r6w   1/1     Running   0          41m
+        calcom-575d844586-tw7wb   1/1     Running   0          41m
